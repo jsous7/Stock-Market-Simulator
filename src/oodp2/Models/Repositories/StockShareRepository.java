@@ -20,7 +20,7 @@ public class StockShareRepository {
     
     private String tableName = "stock_share";
     
-    public void save(StockShareEntity company) throws IllegalArgumentException, IllegalAccessException, Exception{
+    public void save(StockShareEntity stockShare) throws IllegalArgumentException, IllegalAccessException, Exception{
         Dao dao = new Dao();
         
         //String arrays required by the Dao
@@ -33,7 +33,7 @@ public class StockShareRepository {
         for (Field key : attributesKeys) {
             String keys = key.getName();
             dataKeys[i] = keys.substring(0,1).toUpperCase() + keys.substring(1);
-            String values = key.get(company).toString();
+            String values = key.get(stockShare).toString();
             dataValues[i] = values.substring(0,1).toUpperCase() + values.substring(1);
             i++;
         }
@@ -48,7 +48,7 @@ public class StockShareRepository {
             .toArray(String[]::new);
         
         //Check if the entity already exists, if yes, just update it
-        StockShareEntity companyFound = this.get(company.getId());
+        StockShareEntity companyFound = this.get(stockShare.getSymbol());
         if (companyFound != null){
             dao.update(this.tableName, dataKeys, dataValues);
         } else {
@@ -62,20 +62,20 @@ public class StockShareRepository {
         dao.delete(this.tableName, String.valueOf(id));
     }
     
-    public StockShareEntity get(int id) throws Exception{
+    public StockShareEntity get(String stockShareSymbol) throws Exception{
         Dao dao = new Dao();
         ResultSet rs = null;
         
         try {
-            rs = dao.getByField(this.tableName, "id", String.valueOf(id));
+            rs = dao.getByField(this.tableName, "stock_share_symbol", stockShareSymbol);
         } catch (Exception e) {
             throw new Exception("Error while executing query: " + e.getMessage());
         }
         
         StockShareEntity stockShare = null;     
         if (rs.next()){
-            id = Integer.parseInt(rs.getString(1));
-            String stockShareSymbol = rs.getString(2);
+            int id = Integer.parseInt(rs.getString(1));
+            stockShareSymbol = rs.getString(2);
             int price = Integer.parseInt(rs.getString(3));
             
             stockShare = StockShareBuilder.build(id, stockShareSymbol, price);

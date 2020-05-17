@@ -5,22 +5,22 @@
  */
 package oodp2.Models.Repositories;
 
-import oodp2.Models.Entities.CompanyEntity;
+import oodp2.Models.Entities.StockShareEntity;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import oodp2.Services.DataAccess.Dao;
 import java.sql.ResultSet;
-import oodp2.Services.Builders.CompanyBuilder;
+import oodp2.Services.Builders.StockShareBuilder;
 /**
  *
  * @author Juliana Costa <juliana.oli.sousa@gmail.com>
  */
-public class CompanyRepository {
+public class StockShareRepository {
     
-    private String tableName = "company";
+    private String tableName = "stock_share";
     
-    public void save(CompanyEntity company) throws IllegalArgumentException, IllegalAccessException, Exception{
+    public void save(StockShareEntity company) throws IllegalArgumentException, IllegalAccessException, Exception{
         Dao dao = new Dao();
         
         //String arrays required by the Dao
@@ -28,7 +28,7 @@ public class CompanyRepository {
         String[] dataValues = new String[30];
               
         //Extract key:value pair from the attributes of the entity 'company' and populate the string 
-        Field [] attributesKeys =  CompanyEntity.class.getDeclaredFields();
+        Field [] attributesKeys =  StockShareEntity.class.getDeclaredFields();
         int i = 0;
         for (Field key : attributesKeys) {
             String keys = key.getName();
@@ -48,7 +48,7 @@ public class CompanyRepository {
             .toArray(String[]::new);
         
         //Check if the entity already exists, if yes, just update it
-        CompanyEntity companyFound = this.get(company.getId());
+        StockShareEntity companyFound = this.get(company.getId());
         if (companyFound != null){
             dao.update(this.tableName, dataKeys, dataValues);
         } else {
@@ -62,7 +62,7 @@ public class CompanyRepository {
         dao.delete(this.tableName, String.valueOf(id));
     }
     
-    public CompanyEntity get(int id) throws Exception{
+    public StockShareEntity get(int id) throws Exception{
         Dao dao = new Dao();
         ResultSet rs = null;
         
@@ -72,29 +72,26 @@ public class CompanyRepository {
             throw new Exception("Error while executing query: " + e.getMessage());
         }
         
-        CompanyEntity company = null;
-        
+        StockShareEntity stockShare = null;     
         if (rs.next()){
             id = Integer.parseInt(rs.getString(1));
-            String name = rs.getString(2);
-            String stockShareSymbol = rs.getString(3);
-            int stockShareQuantity = Integer.parseInt(rs.getString(4));
-            int stockShareQuantitySold = Integer.parseInt(rs.getString(5));
+            String stockShareSymbol = rs.getString(2);
+            int price = Integer.parseInt(rs.getString(3));
             
-            company = CompanyBuilder.build(id, name, stockShareSymbol, stockShareQuantity, stockShareQuantitySold);
+            stockShare = StockShareBuilder.build(id, stockShareSymbol, price);
         } else {
             throw new Exception("Company not found");
         }
   
-        return company;
+        return stockShare;
         
     }
     
-    public ArrayList<CompanyEntity> getAll() throws Exception, Exception{
+    public ArrayList<StockShareEntity> getAll() throws Exception, Exception{
         Dao daoLayer = new Dao();
         ResultSet rs = null;
         
-        ArrayList<CompanyEntity> companies = new ArrayList<CompanyEntity>();
+        ArrayList<StockShareEntity> stockShares = new ArrayList<StockShareEntity>();
         
         try {
             rs = daoLayer.getAll(this.tableName);
@@ -102,21 +99,21 @@ public class CompanyRepository {
             throw new Exception("Error while executing query: " + e.getMessage());
         }
         
+        StockShareEntity stockShare = null;
         if (rs.next()){
             while (rs.next()) {
                 int id = Integer.parseInt(rs.getString(1));
-                String name = rs.getString(2);
-                String stockShareSymbol = rs.getString(3);
-                int stockShareQuantity = Integer.parseInt(rs.getString(4));
-                int stockShareQuantitySold = Integer.parseInt(rs.getString(5));
-                
-                CompanyEntity company = CompanyBuilder.build(id, name, stockShareSymbol, stockShareQuantity, stockShareQuantitySold);
-                companies.add(company);
+                String stockShareSymbol = rs.getString(2);
+                int price = Integer.parseInt(rs.getString(3));
+
+                stockShare = StockShareBuilder.build(id, stockShareSymbol, price);
+            
+                stockShares.add(stockShare);
             }
         } else {
-            throw new Exception("No countries found!");
+            throw new Exception("No Stock Shares found!");
         }
 
-        return companies;
+        return stockShares;
     }
 }

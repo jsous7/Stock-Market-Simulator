@@ -13,6 +13,8 @@ import oodp2.Services.Builders.CompanyBuilder;
 import oodp2.Services.Builders.StockShareBuilder;
 import java.util.ArrayList;
 import java.util.Random;
+import oodp2.Models.Repositories.CompanyRepository;
+import oodp2.Models.Repositories.StockShareRepository;
 
 /**
  *
@@ -40,7 +42,7 @@ public class ObjectFactory {
         return objectCreated;
     }
 
-    private CompanyEntity createCompany(String[] data) {
+    private CompanyEntity createCompany(String[] data) throws IllegalAccessException, Exception {
         int id = Integer.parseInt(data[0]);
         String name = data[1];
         String stockShareSymbol = data[2];
@@ -54,8 +56,11 @@ public class ObjectFactory {
         
         StockShareEntity stockShare = StockShareBuilder.build(id, stockShareSymbol, value);
         
-        CompanyRepository.save(company);
-        StockShareRepository.save(stockShare);
+        CompanyRepository companyRepository = new CompanyRepository();
+        companyRepository.save(company);
+        
+        StockShareRepository stockShareRepository = new StockShareRepository();
+        stockShareRepository.save(stockShare);
         
         return company;
     }

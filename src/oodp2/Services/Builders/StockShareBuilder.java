@@ -13,13 +13,12 @@ import oodp2.Models.Entities.StockShareEntity;
  */
 public class StockShareBuilder {
     
-    public static StockShareEntity build(int id, String stockShareSymbol, int price ){
+    public static StockShareEntity build(int id, String stockShareSymbol, int price){
         StockShareEntity stockShare = new StockShareEntity();
         stockShare.setId(id);
         stockShare.setSymbol(stockShareSymbol);
         stockShare.setPrice(price);
         
-        return stockShare;
-        
+        return stockShare; 
     }
 }

@@ -19,7 +19,7 @@ public class CompanyBuilder {
         companyEntity.setStockShareSymbol(stockShareSymbol);
         companyEntity.setStockShareQuantity(stockShareQuantity);
         companyEntity.setStockShareQuantitySold(stockShareQuantitySold);
+        
         return companyEntity; 
     }
-    
 }

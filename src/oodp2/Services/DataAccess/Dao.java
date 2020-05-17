@@ -29,7 +29,7 @@ public class Dao {
      * @throws SQLException
      * @throws Exception 
      */
-    public void insert(String table, String[] dataKeys, String[] dataValues) throws SQLException, Exception{
+    public void create(String table, String[] dataKeys, String[] dataValues) throws SQLException, Exception{
         String keys = "";
         String values = "";
         
@@ -51,6 +51,20 @@ public class Dao {
         }
     }
     
+    public void update(String table, String[] dataKeys, String[] dataValues){
+        //TODO:
+    }
+    
+    public void delete(String table, String id) throws Exception {
+        String query = "delete from " + table + "where id = " + id;
+        Statement stmt = this.db.createStatement();
+        try {
+            stmt.execute(query);
+        } catch(Exception e) {
+            throw new Exception("Error while executing query: " + e.getMessage());
+        } 
+    }
+    
     /**
      * Method to create the select all query dynamically based on the data provided
      * @param table
@@ -58,10 +72,10 @@ public class Dao {
      * @throws SQLException
      * @throws Exception 
      */
-    public ResultSet selectAll(String table) throws SQLException, Exception{
+    public ResultSet getAll(String table) throws SQLException, Exception{
         ResultSet result = null;
         Statement stmt = this.db.createStatement();
-        String query = "select * from " + table + " limit 200";
+        String query = "select * from " + table + " limit 1000";
         try {
             result = stmt.executeQuery(query);
         } catch (Exception e) {
@@ -80,7 +94,7 @@ public class Dao {
      * @throws SQLException
      * @throws Exception 
      */
-    public ResultSet selectByField(String table, String field, String value) throws SQLException, Exception{
+    public ResultSet getByField(String table, String field, String value) throws SQLException, Exception{
         ResultSet result = null;
         Statement stmt = this.db.createStatement();
         String query = "select * from " + table + " where " + field + " = \"" + value + "\"";

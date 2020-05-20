@@ -15,16 +15,15 @@ import oodp2.Models.Repositories.PortfolioRepository;
  */
 public class PortfolioFactory {
     
-    public PortfolioEntity create(String objectName, String[] data) throws Exception{
-         int id = Integer.parseInt(data[0]);
-        int investor_Id = Integer.parseInt(data[1]);
-        String stockShareSymbol = data[2];
-        int quantity = Integer.parseInt(data[3]);
+    public PortfolioEntity create(int[] data) throws Exception{
+        int investor_id = data[0];
+        int stock_share_id = data[1];
+        int quantity = data[2];
 
-        PortfolioEntity portfolio = PortfolioBuilder.build(id, investor_Id, stockShareSymbol, quantity);
+        PortfolioEntity portfolio = PortfolioBuilder.build(0, investor_id, stock_share_id, quantity);
         
         PortfolioRepository portfolioRepository = new PortfolioRepository();
-        portfolioRepository.save(portfolio);
+        portfolio = portfolioRepository.saveOrUpdate(portfolio);
         
         return portfolio;
     }

@@ -11,6 +11,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import oodp2.Services.DataAccess.Dao;
 import java.sql.ResultSet;
+import oodp2.Models.Entities.CompanyEntity;
+import oodp2.Models.Entities.StockShareEntity;
+import oodp2.Services.Builders.CompanyBuilder;
 import oodp2.Services.Builders.InvestorBuilder;
 /**
  *
@@ -20,7 +23,7 @@ public class InvestorRepository {
     
     private String tableName = "investor";
     
-    public void save(InvestorEntity investor) throws IllegalArgumentException, IllegalAccessException, Exception{
+    public InvestorEntity saveOrUpdate(InvestorEntity investor) throws IllegalArgumentException, IllegalAccessException, Exception{
         Dao dao = new Dao();
         
         //String arrays required by the Dao
@@ -31,6 +34,7 @@ public class InvestorRepository {
         Field [] attributesKeys =  InvestorEntity.class.getDeclaredFields();
         int i = 0;
         for (Field key : attributesKeys) {
+            key.setAccessible(true);
             String keys = key.getName();
             dataKeys[i] = keys.substring(0,1).toUpperCase() + keys.substring(1);
             String values = key.get(investor).toString();
@@ -48,13 +52,26 @@ public class InvestorRepository {
             .toArray(String[]::new);
         
         //Check if the entity already exists, if yes, just update it
-        InvestorEntity investorFound = this.get(investor.getId());
-        if (investorFound != null){
+        InvestorEntity investorFound;
+        try {
+            investorFound = this.getByName(investor.getName());
             dao.update(this.tableName, dataKeys, dataValues);
-        } else {
-           //Calls Dao Passsing the required data for dynamic construction of the query
-            dao.create(this.tableName, dataKeys, dataValues);
-        }  
+        }catch(Exception e){
+            if (e.getMessage() == "Investor not found") {
+                try {
+                    dao.create(this.tableName, dataKeys, dataValues);
+                    investorFound = this.getByName(investor.getName());
+                }catch(Exception e2){
+                    //Throw error if any problem happens while creating company
+                    throw new Exception(e.getMessage());
+                }
+            } else {
+                //Throw error if any problem happens while getting company
+                throw new Exception(e.getMessage());
+            }        
+        }    
+        
+        return investorFound;
     }
     
     public void delete(int id) throws Exception{
@@ -115,5 +132,31 @@ public class InvestorRepository {
         }
 
         return investors;
+    }
+    
+    public InvestorEntity getByName(String name) throws Exception{
+        Dao dao = new Dao();
+        ResultSet rs = null;
+        
+        try {
+            rs = dao.getByField(this.tableName, "name", name);
+        } catch (Exception e) {
+            throw new Exception("Error while executing query: " + e.getMessage());
+        }
+        
+        InvestorEntity investor = null;
+        
+        if (rs.next()){
+            int id = Integer.parseInt(rs.getString(1));
+            name = rs.getString(2);
+            int budget = Integer.parseInt(rs.getString(3));
+            
+            investor = InvestorBuilder.build(id, name, budget);
+        } else {
+            throw new Exception("Investor not found");
+        }
+  
+        return investor;
+        
     }
 }

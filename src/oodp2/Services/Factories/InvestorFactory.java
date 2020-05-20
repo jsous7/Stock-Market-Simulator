@@ -16,14 +16,13 @@ import oodp2.Models.Repositories.InvestorRepository;
 public class InvestorFactory {
     
     public InvestorEntity create(String[] data) throws Exception{
-        int id = Integer.parseInt(data[0]);
-        String name = data[1];
-        int budget = Integer.parseInt(data[2]);
+        String name = data[0];
+        int budget = Integer.parseInt(data[1]);
         
-        InvestorEntity investor = InvestorBuilder.build(id, name, budget);
+        InvestorEntity investor = InvestorBuilder.build(0, name, budget);
         
         InvestorRepository investorRepository = new InvestorRepository();
-        investorRepository.save(investor);
+        investor = investorRepository.saveOrUpdate(investor);
         
         return investor;
     }

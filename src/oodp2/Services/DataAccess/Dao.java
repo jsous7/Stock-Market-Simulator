@@ -34,16 +34,25 @@ public class Dao {
         String values = "";
         
         for (String element : dataKeys){
-            keys = keys + element + ",";
+            keys = keys + element + ",";        
         }
+        //remove the last coma
         keys = keys.substring(0, keys.length()-1);
+        //remove the Id field
+        keys = keys.substring(3, keys.length());
+        
         for (String element : dataValues){
             values = values + "\'" + element + "\'" + ",";
         }
+        //remove the last coma
         values = values.substring(0, values.length()-1);
+        //remove the Id value
+        values = values.substring(4, values.length());
         
         String query = "insert into " + table + "(" + keys + ")" + " values(" + values + ")";
+
         Statement stmt = this.db.createStatement();
+        
         try {
             stmt.execute(query);
         } catch(Exception e) {

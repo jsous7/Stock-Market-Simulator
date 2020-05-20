@@ -20,23 +20,23 @@ public class EntryPoint {
 
     /**
      * @param args the command line arguments
+     * @throws java.lang.Exception
      */
     public static void main(String[] args) throws Exception {
         CompanyFactory factory = new CompanyFactory();
         
-        String[] companyData = {
-            "1",
-            "Adobe",
-            "ADBE",
-            "100",
-            "0"
-        };
+        String[] companyData = {"Adobe", "ADBE", "100", "0"};
         CompanyEntity company = factory.create(companyData);
         
         
         StockShareRepository stockShareRepository = new StockShareRepository();
-        StockShareEntity stockShare = stockShareRepository.get(company.getStockShareSymbol());
+        StockShareEntity stockShare = stockShareRepository.getByCompanyId(company.getId());
         
+        System.out.println(company.getId());
         System.out.println(company.getName());
+        System.out.println(stockShare.getId());
+        System.out.println(stockShare.getCompany_id());
+        System.out.println(stockShare.getPrice());
+        
     }
 }

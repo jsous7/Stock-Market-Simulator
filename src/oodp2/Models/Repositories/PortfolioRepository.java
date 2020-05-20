@@ -75,11 +75,11 @@ public class PortfolioRepository {
         PortfolioEntity portfolio = null;     
         if (rs.next()){
             id = Integer.parseInt(rs.getString(1));
-            int investor_Id = Integer.parseInt(rs.getString(2));
-            String stockShareSymbol = rs.getString(3);
+            int investor_id = Integer.parseInt(rs.getString(2));
+            int stock_share_id = Integer.parseInt(rs.getString(3));
             int quantity = Integer.parseInt(rs.getString(4));
 
-            portfolio = PortfolioBuilder.build(id, investor_Id, stockShareSymbol, quantity);
+            portfolio = PortfolioBuilder.build(id, investor_id, stock_share_id, quantity);
         } else {
             throw new Exception("Portfolio not found");
         }
@@ -105,10 +105,10 @@ public class PortfolioRepository {
             while (rs.next()) {
                 int id = Integer.parseInt(rs.getString(1));
                 int investor_Id = Integer.parseInt(rs.getString(2));
-                String stockShareSymbol = rs.getString(3);
+                int stock_share_id = Integer.parseInt(rs.getString(3));
                 int quantity = Integer.parseInt(rs.getString(4));
 
-                portfolio = PortfolioBuilder.build(id, investor_Id, stockShareSymbol, quantity);
+                portfolio = PortfolioBuilder.build(id, investor_Id, stock_share_id, quantity);
             
                 portfolios.add(portfolio);
             }

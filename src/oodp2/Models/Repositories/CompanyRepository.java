@@ -20,7 +20,7 @@ public class CompanyRepository {
     
     private String tableName = "company";
     
-    public void save(CompanyEntity company) throws IllegalArgumentException, IllegalAccessException, Exception{
+    public CompanyEntity saveOrUpdate(CompanyEntity company) throws IllegalArgumentException, IllegalAccessException, Exception{
         Dao dao = new Dao();
         
         //String arrays required by the Dao
@@ -29,8 +29,10 @@ public class CompanyRepository {
               
         //Extract key:value pair from the attributes of the entity 'company' and populate the string 
         Field [] attributesKeys =  CompanyEntity.class.getDeclaredFields();
+        
         int i = 0;
         for (Field key : attributesKeys) {
+            key.setAccessible(true);
             String keys = key.getName();
             dataKeys[i] = keys.substring(0,1).toUpperCase() + keys.substring(1);
             String values = key.get(company).toString();
@@ -48,13 +50,26 @@ public class CompanyRepository {
             .toArray(String[]::new);
         
         //Check if the entity already exists, if yes, just update it
-        CompanyEntity companyFound = this.get(company.getId());
-        if (companyFound != null){
+        CompanyEntity companyFound;
+        try {
+            companyFound = this.getByName(company.getName());
             dao.update(this.tableName, dataKeys, dataValues);
-        } else {
-           //Calls Dao Passsing the required data for dynamic construction of the query
-            dao.create(this.tableName, dataKeys, dataValues);
+        }catch(Exception e){
+            if (e.getMessage() == "Company not found") {
+                try {
+                    dao.create(this.tableName, dataKeys, dataValues);
+                    companyFound = this.getByName(company.getName());
+                }catch(Exception e2){
+                    //Throw error if any problem happens while creating company
+                    throw new Exception(e.getMessage());
+                }
+            } else {
+                //Throw error if any problem happens while getting company
+                throw new Exception(e.getMessage());
+            }        
         }  
+        
+        return companyFound;
     }
     
     public void delete(int id) throws Exception{
@@ -77,6 +92,34 @@ public class CompanyRepository {
         if (rs.next()){
             id = Integer.parseInt(rs.getString(1));
             String name = rs.getString(2);
+            String stockShareSymbol = rs.getString(3);
+            int stockShareQuantity = Integer.parseInt(rs.getString(4));
+            int stockShareQuantitySold = Integer.parseInt(rs.getString(5));
+            
+            company = CompanyBuilder.build(id, name, stockShareSymbol, stockShareQuantity, stockShareQuantitySold);
+        } else {
+            throw new Exception("Company not found");
+        }
+  
+        return company;
+        
+    }
+    
+    public CompanyEntity getByName(String name) throws Exception{
+        Dao dao = new Dao();
+        ResultSet rs = null;
+        
+        try {
+            rs = dao.getByField(this.tableName, "name", name);
+        } catch (Exception e) {
+            throw new Exception("Error while executing query: " + e.getMessage());
+        }
+        
+        CompanyEntity company = null;
+        
+        if (rs.next()){
+            int id = Integer.parseInt(rs.getString(1));
+            name = rs.getString(2);
             String stockShareSymbol = rs.getString(3);
             int stockShareQuantity = Integer.parseInt(rs.getString(4));
             int stockShareQuantitySold = Integer.parseInt(rs.getString(5));

@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import oodp2.Services.DataAccess.Dao;
 import java.sql.ResultSet;
+import oodp2.Models.Entities.CompanyEntity;
+import oodp2.Services.Builders.CompanyBuilder;
 import oodp2.Services.Builders.StockShareBuilder;
 /**
  *
@@ -20,7 +22,7 @@ public class StockShareRepository {
     
     private String tableName = "stock_share";
     
-    public void save(StockShareEntity stockShare) throws IllegalArgumentException, IllegalAccessException, Exception{
+    public StockShareEntity saveOrUpdate(StockShareEntity stockShare) throws IllegalArgumentException, IllegalAccessException, Exception{
         Dao dao = new Dao();
         
         //String arrays required by the Dao
@@ -31,6 +33,7 @@ public class StockShareRepository {
         Field [] attributesKeys =  StockShareEntity.class.getDeclaredFields();
         int i = 0;
         for (Field key : attributesKeys) {
+            key.setAccessible(true);
             String keys = key.getName();
             dataKeys[i] = keys.substring(0,1).toUpperCase() + keys.substring(1);
             String values = key.get(stockShare).toString();
@@ -48,13 +51,26 @@ public class StockShareRepository {
             .toArray(String[]::new);
         
         //Check if the entity already exists, if yes, just update it
-        StockShareEntity companyFound = this.get(stockShare.getSymbol());
-        if (companyFound != null){
+        StockShareEntity stockShareFound;
+        try {
+            stockShareFound = this.getByCompanyId(stockShare.getCompany_id());
             dao.update(this.tableName, dataKeys, dataValues);
-        } else {
-           //Calls Dao Passsing the required data for dynamic construction of the query
-            dao.create(this.tableName, dataKeys, dataValues);
+        }catch(Exception e){
+            if (e.getMessage() == "StockShare not found") {
+                try {
+                    dao.create(this.tableName, dataKeys, dataValues);
+                    stockShareFound = this.getByCompanyId(stockShare.getCompany_id());
+                }catch(Exception e2){
+                    //Throw error if any problem happens while creating company
+                    throw new Exception(e.getMessage());
+                }
+            } else {
+                //Throw error if any problem happens while getting company
+                throw new Exception(e.getMessage());
+            }        
         }  
+        
+        return stockShareFound; 
     }
     
     public void delete(int id) throws Exception{
@@ -62,12 +78,12 @@ public class StockShareRepository {
         dao.delete(this.tableName, String.valueOf(id));
     }
     
-    public StockShareEntity get(String stockShareSymbol) throws Exception{
+    public StockShareEntity get(int company_id) throws Exception{
         Dao dao = new Dao();
         ResultSet rs = null;
         
         try {
-            rs = dao.getByField(this.tableName, "stock_share_symbol", stockShareSymbol);
+            rs = dao.getByField(this.tableName, "stock_share_id", String.valueOf(company_id));
         } catch (Exception e) {
             throw new Exception("Error while executing query: " + e.getMessage());
         }
@@ -75,12 +91,38 @@ public class StockShareRepository {
         StockShareEntity stockShare = null;     
         if (rs.next()){
             int id = Integer.parseInt(rs.getString(1));
-            stockShareSymbol = rs.getString(2);
+            company_id = Integer.parseInt( rs.getString(2));
             int price = Integer.parseInt(rs.getString(3));
             
-            stockShare = StockShareBuilder.build(id, stockShareSymbol, price);
+            stockShare = StockShareBuilder.build(id, company_id, price);
         } else {
-            throw new Exception("Company not found");
+            throw new Exception("StockShare not found");
+        }
+  
+        return stockShare;
+        
+    }
+    
+    public StockShareEntity getByCompanyId(int id) throws Exception{
+        Dao dao = new Dao();
+        ResultSet rs = null;
+        
+        try {
+            rs = dao.getByField(this.tableName, "company_id", String.valueOf(id));
+        } catch (Exception e) {
+            throw new Exception("Error while executing query: " + e.getMessage());
+        }
+        
+        StockShareEntity stockShare = null;
+        
+        if (rs.next()){
+            id = Integer.parseInt(rs.getString(1));
+            int company_id = Integer.parseInt(rs.getString(2));
+            int price = Integer.parseInt(rs.getString(3));
+            
+            stockShare = StockShareBuilder.build(id, company_id, price);
+        } else {
+            throw new Exception("StockShare not found");
         }
   
         return stockShare;
@@ -103,10 +145,10 @@ public class StockShareRepository {
         if (rs.next()){
             while (rs.next()) {
                 int id = Integer.parseInt(rs.getString(1));
-                String stockShareSymbol = rs.getString(2);
+                int company_id = Integer.parseInt(rs.getString(2));
                 int price = Integer.parseInt(rs.getString(3));
 
-                stockShare = StockShareBuilder.build(id, stockShareSymbol, price);
+                stockShare = StockShareBuilder.build(id, company_id, price);
             
                 stockShares.add(stockShare);
             }

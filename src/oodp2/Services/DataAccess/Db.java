@@ -8,9 +8,9 @@ import java.sql.DriverManager;
  * @author Juliana_Sousa <juliana.oli.sousa@gmail.com>
  */
 public class Db {
-    private static String dsn = "jdbc:mysql://localhost:3306/world?serverTimezone=UTC";
+    private static String dsn = "jdbc:mysql://127.0.0.1:3306/stock_share_market_db?serverTimezone=UTC";
     private static String username = "root";
-    private static String password = "";
+    private static String password = "juky4525.";
     
     private static Connection dbInstance = null;
     

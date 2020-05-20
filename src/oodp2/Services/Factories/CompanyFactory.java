@@ -20,24 +20,22 @@ import oodp2.Services.Builders.StockShareBuilder;
 public class CompanyFactory {
 
     public CompanyEntity create(String[] data) throws Exception{
-        int id = Integer.parseInt(data[0]);
-        String name = data[1];
-        String stockShareSymbol = data[2];
-        int stockShareQuantity = Integer.parseInt(data[3]);
-        int stockShareQuantitySold = Integer.parseInt(data[4]);
+        String name = data[0];
+        String stockShareSymbol = data[1];
+        int stockShareQuantity = Integer.parseInt(data[2]);
+        int stockShareQuantitySold = Integer.parseInt(data[3]);
         
-        CompanyEntity company = CompanyBuilder.build(id, name, stockShareSymbol, stockShareQuantity, stockShareQuantitySold);
-        
-        Random random = new Random();
-        int value = random.nextInt(100 - 10) + 10;
-        
-        StockShareEntity stockShare = StockShareBuilder.build(id, stockShareSymbol, value);
-
+        CompanyEntity company = CompanyBuilder.build(0, name, stockShareSymbol, stockShareQuantity, stockShareQuantitySold);
         CompanyRepository companyRepository = new CompanyRepository();
-//        companyRepository.save(company);
+        company = companyRepository.saveOrUpdate(company);
+               
+        Random random = new Random();
+        int price = random.nextInt(100 - 10) + 10;
+        
+        StockShareEntity stockShare = StockShareBuilder.build(0, company.getId(), price);
         
         StockShareRepository stockShareRepository = new StockShareRepository();
-//        stockShareRepository.save(stockShare);
+        stockShare = stockShareRepository.saveOrUpdate(stockShare);
 
         return company;
     }

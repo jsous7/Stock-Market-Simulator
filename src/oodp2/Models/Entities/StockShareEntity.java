@@ -11,7 +11,7 @@ package oodp2.Models.Entities;
  */
 public class StockShareEntity {
     private int id = 0;
-    private String symbol = null;
+    private int company_id = 0;
     private int price = 0;
 
     public int getId() {
@@ -22,12 +22,12 @@ public class StockShareEntity {
         this.id = id;
     }
 
-    public String getSymbol() {
-        return symbol;
+    public int getCompany_id() {
+        return company_id;
     }
 
-    public void setSymbol(String symbol) {
-        this.symbol = symbol;
+    public void setCompany_id(int company_id) {
+        this.company_id = company_id;
     }
 
     public int getPrice() {
@@ -37,5 +37,5 @@ public class StockShareEntity {
     public void setPrice(int price) {
         this.price = price;
     }
-  
+   
 }

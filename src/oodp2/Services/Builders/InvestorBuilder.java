@@ -15,7 +15,9 @@ public class InvestorBuilder {
     
     public static InvestorEntity build(int id, String name, int budget){
         InvestorEntity investor = new InvestorEntity();
-        investor.setId(id);
+        if (id != 0) {
+            investor.setId(id);
+        }
         investor.setName(name);
         investor.setBudget(budget);
         

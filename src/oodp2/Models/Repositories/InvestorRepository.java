@@ -55,7 +55,8 @@ public class InvestorRepository {
         InvestorEntity investorFound;
         try {
             investorFound = this.getByName(investor.getName());
-            dao.update(this.tableName, dataKeys, dataValues);
+            dao.update(this.tableName, dataKeys, dataValues, String.valueOf(investorFound.getId()));
+            investorFound = this.get(investorFound.getId());
         }catch(Exception e){
             if (e.getMessage() == "Investor not found") {
                 try {

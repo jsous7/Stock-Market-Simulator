@@ -55,7 +55,8 @@ public class PortfolioRepository {
         PortfolioEntity portfolioFound;
         try {
             portfolioFound = this.get(portfolio.getId());
-            dao.update(this.tableName, dataKeys, dataValues);
+            dao.update(this.tableName, dataKeys, dataValues, String.valueOf(portfolioFound.getId()));
+            portfolioFound = this.get(portfolioFound.getId());
         }catch(Exception e){
             if (e.getMessage() == "Portfolio not found") {
                 try {

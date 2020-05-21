@@ -53,7 +53,8 @@ public class CompanyRepository {
         CompanyEntity companyFound;
         try {
             companyFound = this.getByName(company.getName());
-            dao.update(this.tableName, dataKeys, dataValues);
+            dao.update(this.tableName, dataKeys, dataValues, String.valueOf(companyFound.getId()));
+            companyFound = this.get(companyFound.getId());
         }catch(Exception e){
             if (e.getMessage() == "Company not found") {
                 try {
@@ -112,7 +113,7 @@ public class CompanyRepository {
         try {
             rs = dao.getByField(this.tableName, "name", name);
         } catch (Exception e) {
-            throw new Exception("Error while executing query: " + e.getMessage());
+            throw new Exception("Error while Trying to get company by name: " + e.getMessage());
         }
         
         CompanyEntity company = null;

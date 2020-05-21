@@ -54,7 +54,8 @@ public class StockShareRepository {
         StockShareEntity stockShareFound;
         try {
             stockShareFound = this.getByCompanyId(stockShare.getCompany_id());
-            dao.update(this.tableName, dataKeys, dataValues);
+            dao.update(this.tableName, dataKeys, dataValues, String.valueOf(stockShareFound.getId()));
+            stockShareFound = this.get(stockShareFound.getId());
         }catch(Exception e){
             if (e.getMessage() == "StockShare not found") {
                 try {
@@ -78,20 +79,20 @@ public class StockShareRepository {
         dao.delete(this.tableName, String.valueOf(id));
     }
     
-    public StockShareEntity get(int company_id) throws Exception{
+    public StockShareEntity get(int id) throws Exception{
         Dao dao = new Dao();
         ResultSet rs = null;
         
         try {
-            rs = dao.getByField(this.tableName, "stock_share_id", String.valueOf(company_id));
+            rs = dao.getByField(this.tableName, "id", String.valueOf(id));
         } catch (Exception e) {
             throw new Exception("Error while executing query: " + e.getMessage());
         }
         
         StockShareEntity stockShare = null;     
         if (rs.next()){
-            int id = Integer.parseInt(rs.getString(1));
-            company_id = Integer.parseInt( rs.getString(2));
+            id = Integer.parseInt(rs.getString(1));
+            int company_id = Integer.parseInt(rs.getString(2));
             int price = Integer.parseInt(rs.getString(3));
             
             stockShare = StockShareBuilder.build(id, company_id, price);

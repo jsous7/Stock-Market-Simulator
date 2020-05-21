@@ -11,7 +11,9 @@ import oodp2.Models.Entities.CompanyEntity;
 import oodp2.Models.Entities.InvestorEntity;
 import oodp2.Models.Entities.PortfolioEntity;
 import oodp2.Models.Entities.StockShareEntity;
+import oodp2.Models.Repositories.CompanyRepository;
 import oodp2.Models.Repositories.StockShareRepository;
+import oodp2.Services.Builders.CompanyBuilder;
 import oodp2.Services.Factories.CompanyFactory;
 import oodp2.Services.Factories.InvestorFactory;
 import oodp2.Services.Factories.PortfolioFactory;
@@ -29,7 +31,7 @@ public class EntryPoint {
     public static void main(String[] args) throws Exception {
         CompanyFactory factory = new CompanyFactory();
         
-        String[] companyData = {"Adobe", "ADBE", "100", "0"};
+        String[] companyData = {"Adobe", "ADBE", "10000", "0"};
         CompanyEntity company = factory.create(companyData);
         
         
@@ -37,15 +39,21 @@ public class EntryPoint {
         StockShareEntity stockShare = stockShareRepository.getByCompanyId(company.getId());
         
         InvestorFactory investorFactory = new InvestorFactory();
-        String[] investorData = {"Juliana", "299"};
+        String[] investorData = {"Juliana", "10000"};
         InvestorEntity investor = investorFactory.create(investorData);
         
         PortfolioFactory portfolioFactory = new PortfolioFactory();
-        int[] portfolioData = {investor.getId(), stockShare.getId(), 299};
+        int[] portfolioData = {investor.getId(), stockShare.getId(), 694};
         PortfolioEntity portfolio = portfolioFactory.create(portfolioData);
+        
+//        CompanyRepository companyRepository = new CompanyRepository();
+//        company = CompanyBuilder.build(company.getId(), "ADOBE", "ADB", 999, 0);
+//        company = companyRepository.saveOrUpdate(company);
         
         System.out.println(company.getId());
         System.out.println(company.getName());
+        System.out.println(company.getStockShareSymbol());
+        System.out.println("-");
         System.out.println(stockShare.getId());
         System.out.println(stockShare.getCompany_id());
         System.out.println(stockShare.getPrice());

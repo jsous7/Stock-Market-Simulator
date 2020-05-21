@@ -60,8 +60,29 @@ public class Dao {
         }
     }
     
-    public void update(String table, String[] dataKeys, String[] dataValues){
-        TODO;
+    public void update(String table, String[] dataKeys, String[] dataValues, String id) throws SQLException, Exception{
+        String fields = "";
+
+        int i=0;
+        for (String element : dataKeys){
+            if (element.equals("Id")){
+                dataValues[i] = id;
+            }
+            fields = fields + element + " = \"" + dataValues[i] + "\", ";  
+            i++;
+        }
+        //remove the Id value
+        fields = fields.substring(0, fields.length()-2);
+
+        String query = "update " + table + " set " + fields + " where id = " + id;
+        
+        Statement stmt = this.db.createStatement();
+
+        try {
+            stmt.execute(query);
+        } catch(SQLException e) {
+            throw new Exception("Error while trying to update: " + table + " : " + e.getMessage());
+        }
     }
     
     public void delete(String table, String id) throws Exception {

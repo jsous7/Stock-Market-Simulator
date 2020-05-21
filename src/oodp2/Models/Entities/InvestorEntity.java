@@ -34,4 +34,11 @@ public class InvestorEntity {
         this.budget = budget;
     }
     
+    public boolean hasBudget() {
+        if(this.budget > 0){
+            return true;
+        }
+        
+        return false;
+    }
 }

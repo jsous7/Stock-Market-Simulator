@@ -50,4 +50,12 @@ public class CompanyEntity {
     public void setStockShareQuantitySold(int stockShareQuantitySold) {
         this.stockShareQuantitySold = stockShareQuantitySold;
     }
+    
+    public boolean hasStockShare() {
+        if (this.stockShareQuantity > 0) {
+            return true;
+        }
+        
+        return false;
+    }
 }

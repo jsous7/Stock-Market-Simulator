@@ -1,6 +1,7 @@
 package oodp2;
 
 import oodp2.Services.DummyDataGenetator;
+import oodp2.Services.Simulation;
 
 /**
  *
@@ -13,6 +14,7 @@ public class EntryPoint {
      * @throws java.lang.Exception
      */
     public static void main(String[] args) throws Exception {
-        DummyDataGenetator.generate();
+       // DummyDataGenetator.generate();
+        Simulation.init();
     }
 }

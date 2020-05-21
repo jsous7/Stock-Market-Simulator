@@ -86,7 +86,7 @@ public class InvestorRepository {
         if (rs.next()){
             id = Integer.parseInt(rs.getString(1));
             String name = rs.getString(2);
-            int budget = Integer.parseInt(rs.getString(3));
+            double budget = rs.getDouble(3);
             
             investor = InvestorBuilder.build(id, name, budget);
         } else {
@@ -114,7 +114,7 @@ public class InvestorRepository {
             while (rs.next()) {
                 int id = Integer.parseInt(rs.getString(1));
                 String name = rs.getString(2);
-                int budget = Integer.parseInt(rs.getString(3));
+                double budget = rs.getDouble(3);
 
                 investor = InvestorBuilder.build(id, name, budget);
             
@@ -142,7 +142,7 @@ public class InvestorRepository {
         if (rs.next()){
             int id = Integer.parseInt(rs.getString(1));
             name = rs.getString(2);
-            int budget = Integer.parseInt(rs.getString(3));
+            double budget = rs.getDouble(3);
             
             investor = InvestorBuilder.build(id, name, budget);
         } else {

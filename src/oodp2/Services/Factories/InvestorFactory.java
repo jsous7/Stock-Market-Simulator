@@ -10,10 +10,7 @@ import oodp2.Models.Repositories.InvestorRepository;
  */
 public class InvestorFactory {
     
-    public InvestorEntity create(String[] data) throws Exception{
-        String name = data[0];
-        int budget = Integer.parseInt(data[1]);
-        
+    public InvestorEntity create(String name, double budget) throws Exception{
         InvestorEntity investor = InvestorBuilder.build(0, name, budget);
         
         InvestorRepository investorRepository = new InvestorRepository();

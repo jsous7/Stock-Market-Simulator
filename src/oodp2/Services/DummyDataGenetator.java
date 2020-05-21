@@ -37,13 +37,14 @@ public class DummyDataGenetator {
     private static void generateInvestor(int quantity) throws Exception {
         for(int i=0; i<quantity; i++){
             String uuid = UUID.randomUUID().toString().substring(0, 4);
-            String[] investorData = {
-                "Investor_"+uuid,
-                String.valueOf(ThreadLocalRandom.current().nextInt(1000, 10000)),
-            };
+            
+            double budget = ThreadLocalRandom.current().nextDouble(1000.00, 10000.00);
+            String budgetString = String.format("%.2f", budget);
+            budgetString = budgetString.replace(",", ".");
+            double doubleBudget = Double.parseDouble(budgetString);
 
             InvestorFactory investorFactory = new InvestorFactory();
-            investorFactory.create(investorData);        
+            investorFactory.create("Investor_"+uuid, doubleBudget);        
         }
     }
     

@@ -8,7 +8,7 @@ import oodp2.Models.Entities.InvestorEntity;
  */
 public class InvestorBuilder {
     
-    public static InvestorEntity build(int id, String name, int budget){
+    public static InvestorEntity build(int id, String name, double budget){
         InvestorEntity investor = new InvestorEntity();
         if (id != 0) {
             investor.setId(id);

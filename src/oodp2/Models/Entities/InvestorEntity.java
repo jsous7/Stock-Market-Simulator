@@ -7,7 +7,7 @@ package oodp2.Models.Entities;
 public class InvestorEntity {
     private int id = 0;
     private String name = null;
-    private int budget = 0;
+    private double budget = 0;
     
     public void setId(int id) {
         this.id = id;
@@ -26,11 +26,11 @@ public class InvestorEntity {
         this.name = name;
     }
 
-    public int getBudget() {
+    public double getBudget() {
         return budget;
     }
 
-    public void setBudget(int budget) {
+    public void setBudget(double budget) {
         this.budget = budget;
     }
     

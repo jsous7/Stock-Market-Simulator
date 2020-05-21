@@ -7,7 +7,7 @@ package oodp2.Models.Entities;
 public class StockShareEntity {
     private int id = 0;
     private int company_id = 0;
-    private int price = 0;
+    private double price = 0;
 
     public int getId() {
         return id;
@@ -25,11 +25,11 @@ public class StockShareEntity {
         this.company_id = company_id;
     }
 
-    public int getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(double price) {
         this.price = price;
     }
    

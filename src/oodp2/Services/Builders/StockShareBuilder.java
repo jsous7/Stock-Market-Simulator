@@ -8,7 +8,7 @@ import oodp2.Models.Entities.StockShareEntity;
  */
 public class StockShareBuilder {
     
-    public static StockShareEntity build(int id, int company_id, int price){
+    public static StockShareEntity build(int id, int company_id, double price){
         StockShareEntity stockShare = new StockShareEntity();
         if (id != 0) {
             stockShare.setId(id);

@@ -86,7 +86,7 @@ public class StockShareRepository {
         if (rs.next()){
             id = Integer.parseInt(rs.getString(1));
             int company_id = Integer.parseInt(rs.getString(2));
-            int price = Integer.parseInt(rs.getString(3));
+            double price = rs.getDouble(3);
             
             stockShare = StockShareBuilder.build(id, company_id, price);
         } else {
@@ -112,7 +112,7 @@ public class StockShareRepository {
         if (rs.next()){
             id = Integer.parseInt(rs.getString(1));
             int company_id = Integer.parseInt(rs.getString(2));
-            int price = Integer.parseInt(rs.getString(3));
+            double price = rs.getDouble(3);
             
             stockShare = StockShareBuilder.build(id, company_id, price);
         } else {
@@ -140,7 +140,7 @@ public class StockShareRepository {
             while (rs.next()) {
                 int id = Integer.parseInt(rs.getString(1));
                 int company_id = Integer.parseInt(rs.getString(2));
-                int price = Integer.parseInt(rs.getString(3));
+                double price = rs.getDouble(3);
 
                 stockShare = StockShareBuilder.build(id, company_id, price);
             

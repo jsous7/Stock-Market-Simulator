@@ -2,6 +2,7 @@ package oodp2.Services;
 
 import java.util.Random;
 import java.util.UUID;
+import java.util.concurrent.ThreadLocalRandom;
 import oodp2.Models.Repositories.CleanDbDataRepository;
 import oodp2.Services.Factories.CompanyFactory;
 import oodp2.Services.Factories.InvestorFactory;
@@ -20,12 +21,11 @@ public class DummyDataGenetator {
 
     private static void generateCompany(int quantity) throws Exception {
         for(int i=0; i<quantity; i++){
-            Random random = new Random();
             String uuid = UUID.randomUUID().toString().substring(0, 4);
             String[] companyData = {
             "Company_" + uuid,
             "Share_" + uuid,
-            String.valueOf(random.nextInt(1000 - 500) + 500),
+            String.valueOf(ThreadLocalRandom.current().nextInt(500, 1000)),
             "0"
         };
         
@@ -36,11 +36,10 @@ public class DummyDataGenetator {
 
     private static void generateInvestor(int quantity) throws Exception {
         for(int i=0; i<quantity; i++){
-            Random random = new Random();
             String uuid = UUID.randomUUID().toString().substring(0, 4);
             String[] investorData = {
                 "Investor_"+uuid,
-                String.valueOf(random.nextInt(10000 - 1000) + 1000)
+                String.valueOf(ThreadLocalRandom.current().nextInt(1000, 10000)),
             };
 
             InvestorFactory investorFactory = new InvestorFactory();

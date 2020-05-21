@@ -1,6 +1,7 @@
 package oodp2.Services.Factories;
 
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 import oodp2.Models.Entities.CompanyEntity;
 import oodp2.Models.Entities.StockShareEntity;
 import oodp2.Models.Repositories.CompanyRepository;
@@ -24,10 +25,12 @@ public class CompanyFactory {
         CompanyRepository companyRepository = new CompanyRepository();
         company = companyRepository.saveOrUpdate(company);
                
-        Random random = new Random();
-        int price = random.nextInt(100 - 10) + 10;
+        double price = ThreadLocalRandom.current().nextDouble(10.00, 100.00);
+        String priceString = String.format("%.2f", price);
+        priceString = priceString.replace(",", ".");
+        double doublePrice = Double.parseDouble(priceString);
         
-        StockShareEntity stockShare = StockShareBuilder.build(0, company.getId(), price);
+        StockShareEntity stockShare = StockShareBuilder.build(0, company.getId(), doublePrice);
         
         StockShareRepository stockShareRepository = new StockShareRepository();
         stockShare = stockShareRepository.saveOrUpdate(stockShare);

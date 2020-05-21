@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package oodp2.Models.Repositories;
 
 import oodp2.Models.Entities.StockShareEntity;
@@ -11,8 +6,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import oodp2.Services.DataAccess.Dao;
 import java.sql.ResultSet;
-import oodp2.Models.Entities.CompanyEntity;
-import oodp2.Services.Builders.CompanyBuilder;
 import oodp2.Services.Builders.StockShareBuilder;
 /**
  *

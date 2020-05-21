@@ -136,4 +136,16 @@ public class Dao {
         
         return result;
     }
+    
+    public void truncateTable(String table) throws Exception{
+        Statement stmt = this.db.createStatement();
+        String query = "truncate table " + table;
+        try {
+            stmt.execute("SET FOREIGN_KEY_CHECKS = 0");
+            stmt.executeUpdate(query);
+            stmt.execute("SET FOREIGN_KEY_CHECKS = 1");
+        } catch (Exception e) {
+            throw new Exception("Error while truncating table: " + e.getMessage());
+        }
+    }
 }

@@ -31,5 +31,7 @@ SOLID
 
 Please note that the project starts at the Class "EntryPoint" and it should have three services:
 	1 - Generate the Dummy data and persist them in a DB;
+	
 	2 - Simulation;
+	
 	3 - ReportGenerator which shows the result of all the operations, this service is not implementended yet, however, the resulting data can be checked straight on the DB through simple queries.

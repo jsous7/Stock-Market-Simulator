@@ -2,7 +2,8 @@ Stock Market Simulator project was created with the Design Patterns and Architec
 
 Singleton Design Pattern - Creational
 
--	This pattern allows that one single instance of an element is created, it is a smart way to transform an Object in a super Global, it can be very problematic though and it is known for create several problems when writing automated tests, however, it does make sense to use it when dealing with DB instance, once there is no need to keep multiple instances of the DB, saving duplications and system resources  
+-	This pattern allows that one single instance of an element is created, it is a smart way to transform an Object in a super Global, it can be very problematic though and it is known for create several problems when writing automated tests, however, it does make sense to use it when dealing with DB instance, once there is no need to keep multiple instances of the DB, saving duplications and system resources.
+
 DAO - Data Access Object - Structural
 
 -	This pattern creates a Strong abstraction layer between the Repositories and the DB, the Repositories should be completely agnostic about where the data are being saved, this Class was built in a way to get the data and without any intervention it builds all the required query in order to perform the data persistence.
@@ -26,7 +27,9 @@ MVVM – Model-View-ViewModel
 -	Models – everything that deals direct with data crating a mapping between the models and the entities;
 -	In this case the EntryPoint acts as a view ;
 -	ViewModel are classes only to bind the view with the models, in this case we can consider the services classes as ViewModel.
+
 SOLID
+
 -	Although SOLID is not a pattern, it states 5 principles to make the code clean and reusable, in this project it was tried at the maximum possible to separate each Concerns but due to the short time spent on this project, not all principles could be applied, for instance, it was created a method called “saveOrUpdate()”, it preaks the Single Responsibility Principle once this method is performing two different operations.
 
 Please note that the project starts at the Class "EntryPoint" and it should have three services:

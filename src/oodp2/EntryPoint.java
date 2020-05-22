@@ -15,7 +15,7 @@ public class EntryPoint {
      */
     public static void main(String[] args) throws Exception {
         
-        int DummyDataAmount = 100;//<-----------Start Point----------|
+        int DummyDataAmount = 30;//<-----------Start Point----------|
         
         DummyDataGenetator.generate(DummyDataAmount, true);
         Simulation.init(DummyDataAmount);

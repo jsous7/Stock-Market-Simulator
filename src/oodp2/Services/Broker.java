@@ -1,6 +1,5 @@
 package oodp2.Services;
 
-import java.util.concurrent.ThreadLocalRandom;
 import oodp2.Models.Entities.CompanyEntity;
 import oodp2.Models.Entities.InvestorEntity;
 import oodp2.Models.Entities.PortfolioEntity;
@@ -8,7 +7,6 @@ import oodp2.Models.Entities.StockShareEntity;
 import oodp2.Models.Repositories.CompanyRepository;
 import oodp2.Models.Repositories.InvestorRepository;
 import oodp2.Models.Repositories.PortfolioRepository;
-import oodp2.Models.Repositories.StockShareRepository;
 import oodp2.Services.Factories.PortfolioFactory;
 
 /**

@@ -3,6 +3,7 @@ package oodp2.Services;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.NoSuchElementException;
+import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 import oodp2.Models.Entities.CompanyEntity;
 import oodp2.Models.Entities.InvestorEntity;
@@ -19,19 +20,25 @@ public class Simulation {
     
     public static void init(int dummyDataAmount) throws Exception{
         System.out.println("Starting Simulation...");
-        
+        Random rand = new Random();
+        int randomNumber = 0;
         int[] lastStockShareOperated = new int[10];
         int brokingPerformed = 0;
         
         while (keepRunning()) {
             InvestorRepository investorReposity = new InvestorRepository();
-            int randomInvestor = ThreadLocalRandom.current().nextInt(1, dummyDataAmount+1);
-            InvestorEntity investor = investorReposity.get(randomInvestor);
+            
+            randomNumber = rand.nextInt((dummyDataAmount - 1) + 1) + 1;
+                
+            System.out.println("random investor number: "+randomNumber);
+            InvestorEntity investor = investorReposity.get(randomNumber);
             System.out.println("Investor Selected: "+investor.getName());
 
+            randomNumber = rand.nextInt((dummyDataAmount - 1) + 1) + 1;
+            
+            System.out.println("random company number: "+randomNumber);
             CompanyRepository companyRepository = new CompanyRepository();
-            int randomCompany = ThreadLocalRandom.current().nextInt(1, dummyDataAmount+1);
-            CompanyEntity company = companyRepository.get(randomCompany);
+            CompanyEntity company = companyRepository.get(randomNumber);
             System.out.println("Company selected: "+company.getName());
 
             StockShareRepository stockShareRepositor = new StockShareRepository();

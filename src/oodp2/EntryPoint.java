@@ -14,7 +14,12 @@ public class EntryPoint {
      * @throws java.lang.Exception
      */
     public static void main(String[] args) throws Exception {
-       // DummyDataGenetator.generate();
-        Simulation.init();
+        
+        int DummyDataAmount = 100;//<-----------Start Point----------|
+        
+        DummyDataGenetator.generate(DummyDataAmount, true);
+        Simulation.init(DummyDataAmount);
+        //TODO:Report with the results
+//        Report.generate();
     }
 }

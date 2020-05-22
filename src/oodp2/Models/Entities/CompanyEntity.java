@@ -1,5 +1,8 @@
 package oodp2.Models.Entities;
 
+import oodp2.Models.Repositories.CompanyRepository;
+import oodp2.Models.Repositories.StockShareRepository;
+
 /**
  *
  * @author Juliana Costa <juliana.oli.sousa@gmail.com>
@@ -11,6 +14,17 @@ public class CompanyEntity {
     private int stockShareQuantity = 0;
     private int stockShareQuantitySold = 0;
 
+    public void updatePrice() throws Exception {
+        if (this.stockShareQuantitySold >= 10) {
+            StockShareRepository stockShareRepositor = new StockShareRepository();
+            StockShareEntity stockShare = stockShareRepositor.getByCompanyId(this.id);
+            double newPrice = stockShare.getPrice() * 2;
+            stockShare.setPrice(newPrice);
+            stockShareRepositor.saveOrUpdate(stockShare);
+            this.stockShareQuantitySold = 0;
+        }
+    }
+    
     public void setId(int id) {
         this.id = id;
     }

@@ -10,10 +10,7 @@ import oodp2.Models.Repositories.PortfolioRepository;
  */
 public class PortfolioFactory {
     
-    public PortfolioEntity create(int[] data) throws Exception{
-        int investor_id = data[0];
-        int stock_share_id = data[1];
-        int quantity = data[2];
+    public PortfolioEntity create(int investor_id, int stock_share_id, int quantity) throws Exception{
 
         PortfolioEntity portfolio = PortfolioBuilder.build(0, investor_id, stock_share_id, quantity);
         

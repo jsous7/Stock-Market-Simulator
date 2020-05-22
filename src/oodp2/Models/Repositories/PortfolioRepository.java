@@ -123,7 +123,7 @@ public class PortfolioRepository {
                 portfolios.add(portfolio);
             }
         } else {
-            throw new Exception("No Stock Shares found!");
+            throw new Exception("Portfolio not found!");
         }
 
         return portfolios;

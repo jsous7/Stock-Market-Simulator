@@ -13,13 +13,18 @@ import oodp2.Services.Factories.InvestorFactory;
  */
 public class DummyDataGenetator {
 
-    public static void generate() throws Exception {
-        cleanDbData();
-        generateCompany(100);
-        generateInvestor(100);
+    public static void generate(int amount, boolean cleanPreviusDbData) throws Exception {
+        System.out.println("Generating Dummy Data");
+        System.out.println("");
+        if (cleanPreviusDbData){
+            cleanDbData();
+        }
+        generateCompany(amount);
+        generateInvestor(amount);
     }
 
     private static void generateCompany(int quantity) throws Exception {
+        System.out.println("Generating "+quantity+" companies");
         for(int i=0; i<quantity; i++){
             String uuid = UUID.randomUUID().toString().substring(0, 4);
             String[] companyData = {
@@ -35,6 +40,7 @@ public class DummyDataGenetator {
     }
 
     private static void generateInvestor(int quantity) throws Exception {
+        System.out.println("Generating "+quantity+" Investors");
         for(int i=0; i<quantity; i++){
             String uuid = UUID.randomUUID().toString().substring(0, 4);
             

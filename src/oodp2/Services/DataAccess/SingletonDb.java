@@ -7,7 +7,7 @@ import java.sql.DriverManager;
  * Class using singleton pattern to allow only one DB instance to be used across the project
  * @author Juliana_Sousa <juliana.oli.sousa@gmail.com>
  */
-public class Db {
+public class SingletonDb {
     private static String dsn = "jdbc:mysql://127.0.0.1:3306/stock_share_market_db?serverTimezone=UTC";
     private static String username = "root";
     private static String password = "juky4525.";

@@ -15,7 +15,7 @@ public class Dao {
 
     public Dao() throws Exception {
         try {
-            this.db = Db.getInstance();
+            this.db = SingletonDb.getInstance();
         } catch (Exception e) {
             throw new Exception("error on getting Db singleton instance: " + e.getMessage());
         }

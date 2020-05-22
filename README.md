@@ -30,6 +30,7 @@ SOLID
 -	Although SOLID is not a pattern, it states 5 principles to make the code clean and reusable, in this project it was tried at the maximum possible to separate each Concerns but due to the short time spent on this project, not all principles could be applied, for instance, it was created a method called “saveOrUpdate()”, it preaks the Single Responsibility Principle once this method is performing two different operations.
 
 Please note that the project starts at the Class "EntryPoint" and it should have three services:
+
 	1 - Generate the Dummy data and persist them in a DB;
 	
 	2 - Simulation;

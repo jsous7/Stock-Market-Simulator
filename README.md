@@ -16,7 +16,7 @@ Builder Design Pattern - Creational
 
 -	This pattern was used in order to fully prepare an instance of an Entity, saving time with Entity Configurations and setters and getters.
 
-Abstract Factory Design Pattern - Creational
+Factory Design Pattern - Creational
 
 -	Most of the times, we can’t create an object simply instantiating it once this object can have dependencies or pre-requirements in order to be created. To gather all the required elements in order to create an fully functional object without spend excessive amount of code, a Factory is used to encapsulate all the logic for the object creation.
 SOA – Service Oriented Architecture
